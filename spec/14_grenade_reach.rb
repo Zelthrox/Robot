@@ -22,7 +22,7 @@ describe Robot do
           @robot2.move_up
         end
 
-        xit "is able to successfully wound the enemy" do
+        it "is able to successfully wound the enemy" do
           expect(@robot2).to receive(:wound)
           @robot.attack(@robot2)
         end
