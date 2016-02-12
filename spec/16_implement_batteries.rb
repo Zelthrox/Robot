@@ -7,6 +7,9 @@ require_relative 'spec_helper'
 describe Battery do
   before :each do
     @battery = Battery.new
+    @robot = Robot.new
+    @robot.shield = 0
+    @robot.pick_up(@battery)
   end
 
   it "should be an item" do
@@ -18,9 +21,6 @@ describe Battery do
   end
 
   it "it should recharge the battery of the robot" do
-    robot = Robot.new
-    robot.shield = 0
-    robot.pick_up(@battery)
-    expect(robot.shield).to eq(50)
+    expect(@robot.shield).to eq(50)
   end
 end

@@ -25,6 +25,7 @@ class Robot
   end
 
   def self.all_robot_xy(location)
+    raise LocationError, "Invalid Coordinates ~ Please provide correct [x,y]" unless location.is_a?(Array)
     @@robot_list.select {|robots| robots.position == location}
   end
 
@@ -64,7 +65,9 @@ class Robot
   end
 
   def items_weight
-    self.items.reduce(0){|sum, item| sum += item.weight}
+    total_weight = self.items.reduce(0){|sum, item| sum += item.weight}
+    raise NonPositiveIntegerError, "Suming the items weights provided an invalid items_weight" unless (total_weight.is_a?(Integer) && total_weight >= 0)
+    total_weight
   end
 
   def wound(dmg)
@@ -78,11 +81,9 @@ class Robot
 
   def heal(heal_amount)
     raise NonPositiveIntegerError, "Invalid Heal Amount ~ Amount must be a positive number!" unless (heal_amount.is_a?(Integer) && heal_amount >= 0)
-    if full_health?(self.health, heal_amount)
-      self.health = MAX_HEALTH
-    else
-      self.health += heal_amount
-    end
+    self.health += heal_amount
+    (self.health = MAX_HEALTH) if (self.health > MAX_HEALTH)
+    
   end
 
   def heal!(heal_amount)
@@ -105,7 +106,8 @@ class Robot
   end
 
   def all_robots_in_range_of (range)
-    @@robot_list.select { |robots|
+    raise NonPositiveIntegerError, "Invalid Range ~ Range must be a positive number!" unless (range.is_a?(Integer) && range >= 0)
+      @@robot_list.select { |robots|
       (robots.position[0] - self.position[0]).abs <= range && (robots.position[1] - self.position[1]).abs <= range
     }
   end

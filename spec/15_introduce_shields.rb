@@ -10,13 +10,15 @@ require_relative 'spec_helper'
 #tests to modify their expectations.
 
 describe Robot do
+  before :each do
+    @robot = Robot.new
+    @robot.shield = 50
+  end
 
   it "robot should lose all shield before losing health" do
-    robot = Robot.new
-    robot.shield = 50
-    robot.wound(100)
-    expect(robot.shield).to eq(0)
-    expect(robot.health).to eq(50)
+    @robot.wound(100)
+    expect(@robot.shield).to eq(0)
+    expect(@robot.health).to eq(50)
   end
 
 end

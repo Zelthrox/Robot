@@ -12,19 +12,21 @@ describe SpecialWeapon do
     robot2 = Robot.new
     robot3 = Robot.new
 
-    #robots move away
+    #robots move away so robot2 will get damaged while robot3 will be unharm.
     robot2.move_left
     robot3.move_right
 
-    #robot1 attacks robot2
+    #setup
     bomb = SpecialWeapon.new
     battery = Battery.new
     robot1.pick_up(bomb)
-    robot1.attack(robot2)
     robot1.pick_up(battery)
     robot2.pick_up(battery)
     robot3.pick_up(battery)
     
+    #robot1 attacks robot2
+    robot1.attack(robot2)
+
     expect(robot1.shield).to eq(50)
     expect(robot2.shield).to eq(50)
     expect(robot3.shield).to eq(50)
